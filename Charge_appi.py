@@ -6,17 +6,19 @@ from OpenSSL import SSL
 
 app = Flask(__name__)
 app.secret_key = 'saiGeij8AiS2ahleahMo5dahveixuV3J'
+Account = {'Alice':'aaaa','Bob':'bbbb'}
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    username = request.form.get('username', '')
-    password = request.form.get('password', '')
-    if request.method == 'POST':
-        if (username, password) in [('Bob', 'bbbb'), ('Alice', 'aaaa')]:
-            session['username'] = username
-            session['csrf_token'] = uuid.uuid4().hex
-            return redirect(url_for('index'))
-    return render_template('login.html', username=username)
+	username = request.form.get('username', '')
+	password = request.form.get('password', '')
+	if request.method == 'POST':
+		if Account[username]:
+			if Account[username] == password :
+				session['username'] = username
+				session['csrf_token'] = uuid.uuid4().hex
+				return redirect(url_for('index'))
+	return render_template('login.html', username=username)
 
 @app.route('/logout')
 def logout():
@@ -80,7 +82,36 @@ def Edit(id=id):
 	#return id
 	return render_template('edit_cost.html', Cost=Cost,id=id,
                            csrf_token=session['csrf_token'])
-	
+
+@app.route('/del_cost/<id>', methods=['GET', 'POST'])
+def Del_cost(id=id):
+	username = session.get('username')
+	if not username:
+		return redirect(url_for('login'))
+	db = Charge.open_database()
+	Charge.del_spending(db, id)
+	db.commit()
+	return redirect(url_for('index'))
+		
+						   
+@app.route('/add_user', methods=['GET', 'POST'])
+def add_user():
+	username = request.form.get('username', '').strip()
+	password = request.form.get('passwd', '').strip()
+	checkpasswd = request.form.get('checkpasswd', '').strip()
+	if request.method == 'POST':
+		if username in Account:
+			return redirect(url_for('login'))
+		elif password == checkpasswd :
+			Account[username] = password
+			session['username'] = username
+			session['csrf_token'] = uuid.uuid4().hex
+			return redirect(url_for('index'))
+	print(username in Account)
+	print(password)
+	print(Account)
+	return render_template('add_user.html', username=username)
+
 if __name__ == '__main__':
 	app.debug = True
 	context=('www.crt','www.key')

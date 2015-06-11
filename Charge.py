@@ -16,7 +16,11 @@ def add_spending(db, user,dollars,payments, memo):
     db.cursor().execute('INSERT INTO spending (user, dollars, Payments, memo)'
                         ' VALUES (?, ?, ?, ?)', (user, dollars, payments, memo))
 						
-def update_spending(db, user,dollars,payments, memo , id):
+def del_spending(db, id):
+    db.cursor().execute('DELETE FROM spending '
+						'where id = ?;', (id,))
+
+def update_spending(db, id):
     db.cursor().execute('UPDATE spending '
 						'SET user = ? , dollars = ? , payments = ? , memo = ?  '
 						'where id = ?;', (user, dollars, payments, memo , id))

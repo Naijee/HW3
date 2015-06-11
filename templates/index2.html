@@ -16,6 +16,7 @@
 	<tr>
 	  {%if p.Payments == 'Income' %}
 		<td><a href="/edit_cost/{{p.id}}">[Edit]  </a></td>
+		<td><a href="/del_cost/{{p.id}}">[Del]  </a></td>
 		<td><li class="{{ p.Payments }}">收入</li></td>
 		<td>${{ p.dollars }}</td>
 		<td>{{ p.memo }}</td>
@@ -23,6 +24,7 @@
 	  
 	  {%if p.Payments == 'Expenditure' %}
 		<td><a href="/edit_cost/{{p.id}}">[Edit]  </a></td>
+		<td><a href="/del_cost/{{p.id}}">[Del]  </a></td>
 		<td><li class="{{ p.Payments }}">支出</li></td>
 		<td>${{ p.dollars }}</td>
 		<td>{{ p.memo }}</td>

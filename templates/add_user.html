@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block body %}
+  {% if complaint %}<span class="complaint">{{ complaint }}</span>{% endif %}
+  <input name="csrf_token" type="hidden" value="{{ csrf_token }}">
+  <button type="submit">add</button> | <a href="/">Cancel</a>
+</form>
+{% endblock %}
