@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Welcome, {{ username }}{% endblock %}
+{% block body %}
+{% for message in flash_messages %}
+  <div class="flash_message">{{ message }}<a href="/">&times;</a></div>
+{% endfor %}
+<table >
+<ul>
+	<tr>
+		<td></td>
+		<td align="center">收支</td>
+		<td>金額</td>
+		<td>Memo</td>
+	</tr>
+  {% for p in spendings %}
+	<tr>
+	  {%if p.Payments == 'Income' %}
+		<td><a href="/edit_cost/{{p.id}}">[Edit]  </a></td>
+		<td><li class="{{ p.Payments }}">收入</li></td>
+		<td>${{ p.dollars }}</td>
+		<td>{{ p.memo }}</td>
+	  {%endif%}
+	  
+	  {%if p.Payments == 'Expenditure' %}
+		<td><a href="/edit_cost/{{p.id}}">[Edit]  </a></td>
+		<td><li class="{{ p.Payments }}">支出</li></td>
+		<td>${{ p.dollars }}</td>
+		<td>{{ p.memo }}</td>
+	  {%endif%}
+	</tr>
+  {% endfor %}
+
+</ul>
+</table>
+</br>
+<a href="/add_cost">Add a cost</a> | <a href="/logout">Log out</a>
+{% endblock %}

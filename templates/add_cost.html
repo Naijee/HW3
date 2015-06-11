@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Add a new cost{% endblock %}
+{% block body %}
+<form method="post" action="/add_cost">
+  {% if complaint %}<span class="complaint">{{ complaint }}</span>{% endif %}
+  <label>Dollars: <input name="dollars" value="{{ dollars }}"></label>
+  
+  <label>收支:
+  <select name="Payments">
+	<option value="Income">收入</option>
+	<option value="Expenditure">支出</option>
+  </select>
+  </label>
+  
+  <label>Memo: <input name="memo" value="{{ memo }}"></label>
+  <input name="csrf_token" type="hidden" value="{{ csrf_token }}">
+  <button type="submit">add</button> | <a href="/">Cancel</a>
+</form>
+{% endblock %}

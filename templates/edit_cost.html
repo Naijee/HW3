@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Edit a cost{% endblock %}
+{% block body %}
+<form method="post" action="/edit_cost/{{id}}">
+  {% if complaint %}<span class="complaint">{{ complaint }}</span>{% endif %}
+    
+	
+	{% for p in Cost %}
+  <label>Dollars: <input name="dollars" value="{{ p.dollars }}"></label>
+  
+  <label>收支:
+  <select name="Payments">
+  
+	{% if p.Payments == 'Income' %}
+	<option value="Income" >收入</option>
+	<option value="Expenditure">支出</option>
+	{% endif %}
+  
+	{% if p.Payments == 'Expenditure' %}
+	<option value="Income" >收入</option>
+	<option value="Expenditure" selected="true">支出</option>
+	{% endif %}
+	
+  </select>
+  </label>
+  
+  <label>Memo: <input name="memo" value="{{ p.memo }}"></label>
+  <input name="csrf_token" type="hidden" value="{{ csrf_token }}">
+  {% endfor %}
+  
+  <button type="submit">Edit</button> | <a href="/">Cancel</a>
+</form>
+{% endblock %}
